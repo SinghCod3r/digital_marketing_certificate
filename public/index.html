@@ -7,16 +7,12 @@
 <style>
 :root {
   --navy: #0f2455;
-  --navy-dark: #091738;
   --gold: #b8892b;
-  --gold-light: #e5b84c;
   --bg: #f6f1e6;
   --card: #fffdf8;
   --ink: #1b2440;
   --muted: #6b7390;
   --line: #e4dccb;
-  --badge-bg: #fff4db;
-  --badge-border: #f0cf85;
 }
 * { box-sizing: border-box; }
 body {
@@ -28,7 +24,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 26px 16px;
+  padding: 24px 16px;
 }
 body::before, body::after {
   content: "";
@@ -61,11 +57,11 @@ body::after {
 
 .wrap {
   width: 100%;
-  max-width: 620px;
-  animation: rise .6s cubic-bezier(.2,.7,.2,1) both;
+  max-width: 540px;
+  animation: rise .5s cubic-bezier(.2,.7,.2,1) both;
 }
 @keyframes rise {
-  from { opacity: 0; transform: translateY(18px) scale(.985); }
+  from { opacity: 0; transform: translateY(16px); }
 }
 
 header {
@@ -76,17 +72,17 @@ header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 16px;
   background: #ffffff;
-  padding: 10px 22px;
+  padding: 9px 20px;
   border-radius: 999px;
-  box-shadow: 0 4px 18px rgba(15,36,85,.08);
+  box-shadow: 0 4px 16px rgba(15,36,85,.07);
   border: 1px solid var(--line);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   max-width: 100%;
 }
 .brand-divider {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--gold);
   line-height: 1;
@@ -97,16 +93,16 @@ header {
   object-fit: contain;
   display: block;
 }
-.logo-sms { height: 34px; }
-.logo-invertis { height: 32px; }
+.logo-sms { height: 32px; }
+.logo-invertis { height: 30px; }
 @media (max-width: 480px) {
-  .brand-bar { gap: 12px; padding: 8px 16px; }
-  .logo-sms { height: 28px; }
-  .logo-invertis { height: 26px; }
+  .brand-bar { gap: 10px; padding: 7px 14px; }
+  .logo-sms { height: 26px; }
+  .logo-invertis { height: 24px; }
 }
 header h1 {
-  font-size: clamp(1.4rem, 4.5vw, 1.95rem);
-  margin: 0 0 6px;
+  font-size: clamp(1.35rem, 4.2vw, 1.85rem);
+  margin: 0 0 4px;
   font-family: Georgia, serif;
   color: var(--navy);
   font-weight: 700;
@@ -115,74 +111,29 @@ header p {
   margin: 0;
   color: var(--ink);
   opacity: .75;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
 .card {
   background: var(--card);
-  border-radius: 20px;
-  padding: clamp(22px, 5vw, 36px);
-  box-shadow: 0 12px 35px rgba(15,36,85,.16);
-  border-top: 5px solid var(--gold);
+  border-radius: 18px;
+  padding: clamp(24px, 5vw, 36px);
+  box-shadow: 0 10px 30px rgba(15,36,85,.14);
+  border-top: 4px solid var(--gold);
   text-align: center;
 }
 
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--badge-bg);
-  border: 1px solid var(--badge-border);
-  color: #8c6314;
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 6px 14px;
-  border-radius: 99px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  margin-bottom: 16px;
-}
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #c98c1a;
-  border-radius: 50%;
-  animation: pulse 1.6s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .4; transform: scale(.8); }
-}
-
-.sleep-icon-box {
-  position: relative;
-  display: inline-block;
-  margin: 4px auto 14px;
-  font-size: 3.4rem;
+.emoji-heading {
+  font-size: 3.2rem;
   line-height: 1;
-}
-.zzz-badge {
-  position: absolute;
-  font-weight: 900;
-  color: var(--navy);
-  opacity: 0;
-  animation: floatZ 3s ease-in-out infinite;
-  user-select: none;
-}
-.z1 { font-size: 1rem; top: -6px; right: -12px; animation-delay: 0s; }
-.z2 { font-size: 1.3rem; top: -18px; right: -24px; animation-delay: 1s; }
-.z3 { font-size: 1.6rem; top: -32px; right: -36px; animation-delay: 2s; }
-@keyframes floatZ {
-  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
-  45% { opacity: 0.95; transform: translate(6px, -12px) scale(1); }
-  100% { opacity: 0; transform: translate(14px, -26px) scale(1.25); }
+  margin-bottom: 12px;
 }
 
 .card h2 {
   font-family: Georgia, serif;
   color: var(--navy);
-  font-size: clamp(1.35rem, 4.4vw, 1.75rem);
+  font-size: clamp(1.35rem, 4.4vw, 1.7rem);
   margin: 0 0 12px;
   line-height: 1.3;
 }
@@ -191,112 +142,59 @@ header p {
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--ink);
-  margin: 0 0 8px;
+  margin: 0 0 20px;
 }
-.card .sublead {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin: 0 0 18px;
-}
-
-.funny-status-box {
-  background: #fdf8ee;
-  border: 1.5px solid #ebd9b7;
-  border-radius: 14px;
-  padding: 12px 18px;
-  margin: 16px 0 20px;
-  text-align: left;
-  font-size: 0.92rem;
-}
-.status-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 0;
-  border-bottom: 1px dashed #e8d7b3;
-}
-.status-row:last-child {
-  border-bottom: none;
-}
-.status-row span {
-  color: var(--muted);
-  font-weight: 500;
-}
-.status-row strong {
+.card .lead strong {
   color: var(--navy);
-  font-weight: 600;
-  text-align: right;
 }
 
-.highlight-box {
-  background: #f5eedb;
-  border: 1.5px dashed var(--gold);
+.countdown-wrap {
+  background: #fdfaf3;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 14px 16px 12px;
   margin: 18px 0;
-  text-align: center;
 }
-.highlight-title {
-  font-size: 0.82rem;
+.countdown-title {
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
   color: var(--gold);
-  margin-bottom: 4px;
-}
-.highlight-date {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--navy);
-}
-
-.timer-heading {
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-top: 18px;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
+  margin-bottom: 8px;
 }
 
 .countdown-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin: 8px 0 12px;
+  gap: 8px;
 }
 .countdown-item {
   background: #ffffff;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 4px;
-  box-shadow: 0 2px 6px rgba(15,36,85,.04);
+  border-radius: 8px;
+  padding: 8px 4px;
 }
 .countdown-value {
-  font-size: 1.55rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--navy);
   font-family: Georgia, serif;
   line-height: 1.1;
 }
 .countdown-label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   color: var(--muted);
   font-weight: 600;
-  margin-top: 4px;
-  letter-spacing: .05em;
+  margin-top: 2px;
 }
 
 .card .note {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--muted);
-  line-height: 1.55;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  margin-bottom: 0;
 }
 </style>
 </head>
@@ -313,81 +211,42 @@ header p {
   </header>
 
   <main class="card">
-    <div class="status-badge">
-      <span class="status-dot"></span>
-      😴 Status: Developer is Sleeping
-    </div>
-
-    <div class="sleep-icon-box">
-      <span>😴</span>
-      <span class="zzz-badge z1">Z</span>
-      <span class="zzz-badge z2">z</span>
-      <span class="zzz-badge z3">z</span>
-    </div>
-
-    <h2>Developer is Sleeping... Let him Rest :)</h2>
-
+    <div class="emoji-heading">😴</div>
+    <h2>Developer is sleeping... let him rest :)</h2>
     <p class="lead">
-      <strong>Shhh... please keep the noise down! 🤫</strong><br>
-      The site is currently down for scheduled improvement purposes.
-    </p>
-    <p class="sublead">
-      After writing tons of code, debugging tests, and perfecting the certificates, our developer finally collapsed into deep hibernation. We are letting him recharge his batteries!
+      The site is temporarily down for improvements.<br>
+      It will go live again in <strong>2 days</strong>.
     </p>
 
-    <div class="funny-status-box">
-      <div class="status-row">
-        <span>☕ Coffee Reservoir:</span>
-        <strong>Empty (0% remaining)</strong>
-      </div>
-      <div class="status-row">
-        <span>🧠 Developer Mind:</span>
-        <strong>Rebooting & Defragmenting...</strong>
-      </div>
-      <div class="status-row">
-        <span>🛠️ Maintenance Reason:</span>
-        <strong>System & Platform Upgrades</strong>
-      </div>
-      <div class="status-row">
-        <span>⏰ Wake-Up Alarm:</span>
-        <strong>Going Live Again in 2 Days! 🚀</strong>
-      </div>
-    </div>
-
-    <div class="highlight-box">
-      <div class="highlight-title">Expected Re-Awakening</div>
-      <div class="highlight-date">Site Goes Live Again After 2 Days ⚡</div>
-    </div>
-
-    <div class="timer-heading">Wake-Up Countdown Timer</div>
-    <div class="countdown-grid" id="timer">
-      <div class="countdown-item">
-        <div class="countdown-value" id="days">02</div>
-        <div class="countdown-label">Days</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-value" id="hours">00</div>
-        <div class="countdown-label">Hours</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-value" id="minutes">00</div>
-        <div class="countdown-label">Minutes</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-value" id="seconds">00</div>
-        <div class="countdown-label">Seconds</div>
+    <div class="countdown-wrap">
+      <div class="countdown-title">Live again in</div>
+      <div class="countdown-grid" id="timer">
+        <div class="countdown-item">
+          <div class="countdown-value" id="days">02</div>
+          <div class="countdown-label">Days</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="hours">00</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="minutes">00</div>
+          <div class="countdown-label">Mins</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="seconds">00</div>
+          <div class="countdown-label">Secs</div>
+        </div>
       </div>
     </div>
 
     <p class="note">
-      💛 <em>No developers were harmed in the making of this certificate portal.</em><br>
-      Please don't wake him up — he builds much faster when well-rested! If you have any urgent queries regarding your certification or program, please contact your university faculty coordinator.
+      For any urgent queries, please contact your program coordinator.
     </p>
   </main>
 </div>
 
 <script>
-// Target: 2 days (48 hours) from current maintenance start
 const DURATION_MS = 48 * 60 * 60 * 1000;
 let endTime = localStorage.getItem("dev_sleep_end_time");
 if (!endTime || isNaN(endTime)) {
@@ -398,9 +257,7 @@ if (!endTime || isNaN(endTime)) {
 }
 
 function updateTimer() {
-  const now = Date.now();
-  const diff = Math.max(0, endTime - now);
-
+  const diff = Math.max(0, endTime - Date.now());
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
