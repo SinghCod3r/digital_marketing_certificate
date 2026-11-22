@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Marketing Program – Certificate</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+:root{--navy:#0f2455;--gold:#b8892b;--bg:#f6f1e6;--card:#fffdf8;--ink:#1b2440;--muted:#6b7390;--ok:#1f8a4c;--bad:#c0392b;--line:#e4dccb}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background-color:var(--bg);display:flex;justify-content:center;padding:24px 14px 40px}
+.wrap{width:100%;max-width:620px}
+header{text-align:center;margin-bottom:22px}
+.brand-bar{display:inline-flex;align-items:center;justify-content:center;gap:18px;background:#ffffff;padding:10px 22px;border-radius:999px;box-shadow:0 4px 18px rgba(15,36,85,.08);border:1px solid var(--line);margin-bottom:14px;max-width:100%}
+.brand-divider{font-size:1.15rem;font-weight:700;color:var(--gold);line-height:1;user-select:none}
+.logo{width:auto;object-fit:contain;display:block}
+.logo-sms{height:34px}
+.logo-invertis{height:32px}
+@media (max-width:480px){
+  .brand-bar{gap:12px;padding:8px 16px}
+  .logo-sms{height:28px}
+  .logo-invertis{height:26px}
+}
+header h1{font-size:clamp(1.4rem,4.5vw,1.95rem);margin:0 0 6px;font-family:Georgia,serif;color:var(--navy);font-weight:700}
+header p{margin:0;color:var(--ink);opacity:.75;font-size:1rem;font-weight:500}
+.card{background:var(--card);border-radius:16px;padding:clamp(18px,4vw,32px);box-shadow:0 10px 30px rgba(15,36,85,.18);border-top:4px solid var(--gold)}
+label{display:block;font-weight:600;margin:16px 0 6px;font-size:.95rem}
+input[type=text],input[type=date]{width:100%;padding:13px 14px;font-size:1rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+input:disabled{background:#f0ece1;color:var(--muted)}
+.chk{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:.9rem;color:var(--muted);font-weight:400}
+.chk input{width:18px;height:18px;accent-color:var(--navy)}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:14px 20px;font-weight:600;font-size:1rem}
+.primary{background:var(--navy);color:#fff;width:100%;margin-top:22px}
+.primary:hover{background:#17337a}.primary:disabled{opacity:.45;cursor:not-allowed}
+.gold{background:var(--gold);color:#fff}
+.err{color:var(--bad);font-size:.88rem;margin-top:8px;min-height:1.1em}
+.hidden{display:none}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:14px}
+.q{font-size:clamp(1.05rem,3.6vw,1.25rem);font-weight:600;margin:0 0 14px;line-height:1.4}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);margin-bottom:10px;padding:13px 14px;font-weight:500;border-radius:10px;color:var(--ink)}
+.opt:hover{border-color:var(--navy)}
+.opt.sel{border-color:var(--navy);background:#eaeefa}
+.nav{display:flex;gap:10px;margin-top:8px}
+.nav button{flex:1}
+.ghost{background:#ece6d6;color:var(--ink)}
+.result{text-align:center}
+.score{font-size:3rem;font-weight:700;color:var(--navy);font-family:Georgia,serif;margin:4px 0}
+.badge{display:inline-block;padding:4px 12px;border-radius:99px;font-size:.85rem;font-weight:600;color:#fff}
+.review{text-align:left;margin-top:22px;border-top:1px solid var(--line);padding-top:6px}
+.review details{padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.review summary{cursor:pointer;font-weight:600}
+.ok{color:var(--ok)}.no{color:var(--bad)}
+.note{font-size:.85rem;color:var(--muted);margin-top:12px}
+
+/* ---------- Motion ---------- */
+body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none}
+body::before{width:340px;height:340px;background:#c9a24a;top:-90px;right:-80px;animation:drift 16s ease-in-out infinite alternate}
+body::after{width:300px;height:300px;background:#2a4db0;bottom:-90px;left:-80px;animation:drift 20s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(-50px,40px) scale(1.15)}}
+header{animation:fadeDown .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.985)}}
+.card.enter{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+.card{transition:box-shadow .3s}
+.card:hover{box-shadow:0 14px 36px rgba(15,36,85,.24)}
+.q.swap,.opt.swap{animation:slideIn .4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes slideIn{from{opacity:0;transform:translateX(16px)}}
+input[type=text],input[type=date],.opt,button{transition:border-color .2s,background .2s,box-shadow .2s,transform .2s,opacity .2s}
+input:focus{box-shadow:0 0 0 4px rgba(184,137,43,.18)}
+button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,36,85,.18)}
+button:not(:disabled):active{transform:translateY(0) scale(.98)}
+.opt.sel{animation:pop .3s ease}
+@keyframes pop{50%{transform:scale(1.015)}}
+.bar i{transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.badge{animation:badgeIn .6s .15s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes badgeIn{from{opacity:0;transform:scale(.5)}}
+.score{animation:fadeUp2 .6s .25s both}
+@keyframes fadeUp2{from{opacity:0;transform:translateY(10px)}}
+#dl{animation:glow 2.8s 1s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 8px rgba(184,137,43,.18)}}
+#dl.busy{pointer-events:none;opacity:.75;animation:none}
+#dl.busy::after{content:"";display:inline-block;width:14px;height:14px;margin-left:10px;vertical-align:-2px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dl-progress-wrap{margin-top:16px;background:#fdfbf7;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;text-align:left;animation:fadeUp2 .4s ease both}
+.dl-progress-header{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:600;color:var(--navy);margin-bottom:8px}
+.dl-bar-track{height:10px;background:#ece5d6;border-radius:99px;overflow:hidden;position:relative}
+.dl-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold) 0%,#e5b84c 50%,var(--navy) 100%);background-size:200% 100%;border-radius:99px;transition:width .35s ease;animation:shimmer 1.8s linear infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dl-bar-fill.done{background:var(--ok)!important;animation:none}
+.dl-step-desc{font-size:.82rem;color:var(--muted);margin-top:7px}
+.review details{transition:background .2s}
+.review details[open]{background:rgba(184,137,43,.07)}
+.confetti{position:fixed;top:-12px;width:8px;height:12px;border-radius:2px;pointer-events:none;z-index:10;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand-bar">
+      <img src="shape-my-skills-logo.png" alt="Shape My Skills" class="logo logo-sms">
+      <span class="brand-divider">×</span>
+      <img src="invertis-logo.png" alt="Invertis University Bareilly" class="logo logo-invertis">
+    </div>
+    <h1>Advanced Digital Marketing Program</h1>
+    <p>Shape My Skills × Invertis University</p>
+  </header>
+
+  <!-- Step 1 -->
+  <section class="card" id="s1">
+    <label for="name" style="margin-top:0">Full name (as it should appear on the certificate)</label>
+    <input type="text" id="name" maxlength="45" placeholder="e.g. Rahul Sharma" autocomplete="name">
+    <label for="date">Date of completion</label>
+    <input type="date" id="date" disabled>
+    <label class="chk"><input type="checkbox" id="auto" checked> Use today's date</label>
+    <div class="err" id="e1"></div>
+    <button class="primary" id="start">Start Quiz</button>
+  </section>
+
+  <!-- Step 2 -->
+  <section class="card hidden" id="s2">
+    <div class="bar"><i id="pb"></i></div>
+    <div class="meta"><span id="pc"></span><span id="who"></span></div>
+    <p class="q" id="qt"></p>
+    <div id="opts"></div>
+    <div class="nav">
+      <button class="ghost" id="prev">Back</button>
+      <button class="primary" id="next" style="margin-top:0">Next</button>
+    </div>
+  </section>
+
+  <!-- Step 3 -->
+  <section class="card hidden result" id="s3">
+    <span class="badge" id="badge"></span>
+    <div class="score" id="score"></div>
+    <p id="msg" style="margin:0 0 6px"></p>
+    <button class="primary gold" id="dl">Download Certificate (PDF)</button>
+    <div id="dl-progress-box" class="dl-progress-wrap hidden">
+      <div class="dl-progress-header">
+        <span id="dl-status-text">Preparing certificate...</span>
+        <span id="dl-percent-text">0%</span>
+      </div>
+      <div class="dl-bar-track">
+        <div id="dl-bar-fill" class="dl-bar-fill"></div>
+      </div>
+      <div class="dl-step-desc" id="dl-desc-text">Please wait while your certificate is generated.</div>
+    </div>
+    <div class="err" id="e3"></div>
+    <p class="note">Your certificate is available whether you pass or not.</p>
+    <div class="review" id="review"></div>
+  </section>
+</div>
+
+<script>
+const QS=[
+["What is digital marketing?",["Marketing through newspapers only","Marketing using digital platforms and technologies","Marketing through television only","Traditional door-to-door marketing"],1],
+["Which of the following is an example of SEO?",["Improving website ranking on Google","Printing brochures","Distributing pamphlets","Organizing offline events"],0],
+["What does SEO stand for?",["Social Engagement Optimization","Search Engine Optimization","Search Engagement Operation","Sales Engine Organization"],1],
+["Which platform is primarily used for professional networking?",["Instagram","Snapchat","LinkedIn","Pinterest"],2],
+["What is the main purpose of a Call-to-Action (CTA)?",["To confuse customers","To encourage users to take a specific action","To reduce website traffic","To remove advertisements"],1],
+["What is PPC in digital marketing?",["Pay Per Click","Post Per Customer","Page Promotion Cost","Public Product Campaign"],0],
+["Which tool is commonly used to analyze website traffic?",["MS Paint","Google Analytics","Notepad","PowerPoint"],1],
+["What is the primary purpose of content marketing?",["To create valuable and relevant content for an audience","To increase product prices","To eliminate customer service","To stop social media activities"],0],
+["What does CTR stand for?",["Customer Traffic Rate","Click-Through Rate","Content Tracking Ratio","Customer Target Reach"],1],
+["Which of the following is an example of email marketing?",["Sending promotional offers through email","Printing advertisements in magazines","Distributing flyers","Displaying banners on roads"],0]
+];
+const $=id=>document.getElementById(id);
+const L="ABCD";
+let lastRendered=-1, idx=0, ans=Array(QS.length).fill(null), student={name:"",date:""};
+
+// today's date in the visitor's local time
+function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function fmt(iso){const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`}
+
+$("date").value=todayISO();
+$("auto").addEventListener("change",e=>{
+  $("date").disabled=e.target.checked;
+  if(e.target.checked)$("date").value=todayISO();
+});
+
+function show(id){
+  ["s1","s2","s3"].forEach(s=>{const e=$(s);e.classList.remove("enter");e.classList.toggle("hidden",s!==id)});
+  const c=$(id);void c.offsetWidth;c.classList.add("enter");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+// first load
+$("s1").classList.add("enter");
+
+$("start").onclick=()=>{
+  const name=$("name").value.trim().replace(/\s+/g," ");
+  if(!name){$("e1").textContent="Please enter your name.";return}
+  if(!$("date").value){$("e1").textContent="Please choose a date.";return}
+  $("e1").textContent="";
+  student={name,date:$("date").value};
+  $("who").textContent=name;
+  preloadTemplate();
+  idx=0;ans.fill(null);render();show("s2");
+};
+
+function render(){
+  const [q,o]=QS[idx];
+  $("pc").textContent=`Question ${idx+1} of ${QS.length}`;
+  $("pb").style.width=((idx+1)/QS.length*100)+"%";
+  $("qt").textContent=q;
+  const fresh=lastRendered!==idx;lastRendered=idx;
+  if(fresh){$("qt").classList.remove("swap");void $("qt").offsetWidth;$("qt").classList.add("swap")}
+  $("opts").innerHTML="";
+  o.forEach((t,i)=>{
+    const b=document.createElement("button");
+    b.className="opt"+(ans[idx]===i?" sel":"")+(fresh?" swap":"");
+    if(fresh)b.style.animationDelay=(60+i*60)+"ms";
+    b.textContent=`${L[i]}) ${t}`;
+    b.onclick=()=>{ans[idx]=i;render()};
+    $("opts").appendChild(b);
+  });
+  $("prev").style.visibility=idx?"visible":"hidden";
+  $("next").textContent=idx===QS.length-1?"Submit":"Next";
+  $("next").disabled=ans[idx]===null;
+}
+$("prev").onclick=()=>{if(idx>0){idx--;render()}};
+$("next").onclick=()=>{
+  if(idx<QS.length-1){idx++;render()}else finish();
+};
+
+function finish(){
+  const score=ans.reduce((s,a,i)=>s+(a===QS[i][2]?1:0),0);
+  const pass=score>=6;
+  countUp(score);if(pass)confetti();
+  const b=$("badge");b.textContent=pass?"Passed":"Needs improvement";b.style.background=pass?"var(--ok)":"var(--bad)";
+  $("msg").textContent=pass?`Well done, ${student.name}!`:`Thanks for completing the quiz, ${student.name}.`;
+  $("review").innerHTML="<strong>Answer review</strong>"+QS.map((q,i)=>{
+    const right=ans[i]===q[2];
+    return `<details><summary class="${right?"ok":"no"}">${right?"✓":"✗"} Q${i+1}. ${q[0]}</summary>
+    <div>Your answer: ${L[ans[i]]}) ${q[1][ans[i]]}</div>${right?"":`<div>Correct: ${L[q[2]]}) ${q[1][q[2]]}</div>`}</details>`}).join("");
+  show("s3");
+}
+
+// ---- Preload certificate template in background ----
+let templateBufferPromise = null;
+function preloadTemplate(){
+  if(!templateBufferPromise){
+    templateBufferPromise = fetch("certificate-template.pdf")
+      .then(r => { if(!r.ok) throw new Error("Template fetch failed"); return r.arrayBuffer(); })
+      .catch(err => { templateBufferPromise = null; });
+  }
+}
+preloadTemplate();
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function setDlProgress(pct, status, desc, isDone = false){
+  $("dl-bar-fill").style.width = pct + "%";
+  $("dl-percent-text").textContent = pct + "%";
+  $("dl-status-text").textContent = status;
+  $("dl-desc-text").textContent = desc;
+  if(isDone){
+    $("dl-bar-fill").classList.add("done");
+  } else {
+    $("dl-bar-fill").classList.remove("done");
+  }
+}
+
+// ---- Certificate generation (positions measured from the A4 template, in PDF points) ----
+function toLatin(s){
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\x20-\x7E]/g,"").trim();
+}
+function drawFit(page,font,text,cx,baseline,maxW,size,minSize,color){
+  let s=size;
+  while(font.widthOfTextAtSize(text,s)>maxW && s>minSize) s-=0.5;
+  const w=font.widthOfTextAtSize(text,s);
+  page.drawText(text,{x:cx-w/2,y:baseline,size:s,font,color});
+}
+
+function countUp(n){
+  const el=$("score");let i=0;
+  el.textContent=`0 / ${QS.length}`;
+  if(!n)return;
+  const t=setInterval(()=>{i++;el.textContent=`${i} / ${QS.length}`;if(i>=n)clearInterval(t)},90);
+}
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const cols=["#b8892b","#0f2455","#e3c06b","#2a4db0"];
+  for(let i=0;i<28;i++){
+    const e=document.createElement("i");e.className="confetti";
+    e.style.left=Math.random()*100+"vw";
+    e.style.background=cols[i%4];
+    e.style.animationDuration=(2.2+Math.random()*1.8)+"s";
+    e.style.animationDelay=(Math.random()*.6)+"s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),5000);
+  }
+}
+
+$("dl").onclick=async()=>{
+  $("e3").textContent="";
+  const btn=$("dl");
+  const name=toLatin(student.name);
+  if(!name){$("e3").textContent="Name must contain English letters to print on the certificate.";return}
+
+  btn.classList.add("busy");
+  btn.disabled = true;
+  $("dl-progress-box").classList.remove("hidden");
+  setDlProgress(18, "Loading certificate template...", "Preparing official certificate background...");
+  await sleep(250);
+
+  try{
+    if(!templateBufferPromise) preloadTemplate();
+    const bytes = await (templateBufferPromise || fetch("certificate-template.pdf").then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}));
+
+    setDlProgress(45, "Filling candidate name & date...", `Printing "${name}" & completion date ${fmt(student.date)}...`);
+    await sleep(350);
+
+    const {PDFDocument,StandardFonts,rgb}=PDFLib;
+    const pdf=await PDFDocument.load(bytes);
+    const page=pdf.getPages()[0];
+    const {width}=page.getSize();
+    const nameFont=await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
+    const dateFont=await pdf.embedFont(StandardFonts.TimesRoman);
+    const navy=rgb(0.06,0.14,0.33);
+
+    // Name: centred on the long line under "This is to certify that"
+    drawFit(page,nameFont,name,width/2,324,500,34,14,navy);
+    // Date: centred on the short line after "Date of Completion:"
+    drawFit(page,dateFont,fmt(student.date),182,60,70,11,7,navy);
+
+    setDlProgress(80, "Compiling PDF document...", "Embedding vector fonts and formatting output...");
+    await sleep(300);
+
+    const out=await pdf.save();
+
+    setDlProgress(100, "Certificate Ready!", "Download starting automatically...", true);
+    await sleep(250);
+
+    const url=URL.createObjectURL(new Blob([out],{type:"application/pdf"}));
+    const a=document.createElement("a");
+    a.href=url;a.download=`Certificate - ${name}.pdf`;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+
+    btn.textContent = "Download Again (PDF)";
+  }catch(e){
+    $("e3").textContent="Could not generate the certificate. Please check your connection and try again.";
+    $("dl-progress-box").classList.add("hidden");
+  }finally{
+    btn.classList.remove("busy");
+    btn.disabled = false;
+  }
+};
+</script>
+</body>
+</html>
