@@ -8,11 +8,21 @@
 <style>
 :root{--navy:#0f2455;--gold:#b8892b;--bg:#f6f1e6;--card:#fffdf8;--ink:#1b2440;--muted:#6b7390;--ok:#1f8a4c;--bad:#c0392b;--line:#e4dccb}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(160deg,#0f2455 0,#0f2455 220px,var(--bg) 220px);display:flex;justify-content:center;padding:24px 14px 40px}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background-color:var(--bg);display:flex;justify-content:center;padding:24px 14px 40px}
 .wrap{width:100%;max-width:620px}
-header{color:#fff;text-align:center;margin-bottom:18px}
-header h1{font-size:clamp(1.3rem,4.5vw,1.9rem);margin:0 0 4px;font-family:Georgia,serif}
-header p{margin:0;opacity:.8;font-size:.95rem}
+header{text-align:center;margin-bottom:22px}
+.brand-bar{display:inline-flex;align-items:center;justify-content:center;gap:18px;background:#ffffff;padding:10px 22px;border-radius:999px;box-shadow:0 4px 18px rgba(15,36,85,.08);border:1px solid var(--line);margin-bottom:14px;max-width:100%}
+.brand-divider{font-size:1.15rem;font-weight:700;color:var(--gold);line-height:1;user-select:none}
+.logo{width:auto;object-fit:contain;display:block}
+.logo-sms{height:34px}
+.logo-invertis{height:32px}
+@media (max-width:480px){
+  .brand-bar{gap:12px;padding:8px 16px}
+  .logo-sms{height:28px}
+  .logo-invertis{height:26px}
+}
+header h1{font-size:clamp(1.4rem,4.5vw,1.95rem);margin:0 0 6px;font-family:Georgia,serif;color:var(--navy);font-weight:700}
+header p{margin:0;color:var(--ink);opacity:.75;font-size:1rem;font-weight:500}
 .card{background:var(--card);border-radius:16px;padding:clamp(18px,4vw,32px);box-shadow:0 10px 30px rgba(15,36,85,.18);border-top:4px solid var(--gold)}
 label{display:block;font-weight:600;margin:16px 0 6px;font-size:.95rem}
 input[type=text],input[type=date]{width:100%;padding:13px 14px;font-size:1rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
@@ -84,6 +94,11 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
 <body>
 <div class="wrap">
   <header>
+    <div class="brand-bar">
+      <img src="shape-my-skills-logo.png" alt="Shape My Skills" class="logo logo-sms">
+      <span class="brand-divider">×</span>
+      <img src="invertis-logo.png" alt="Invertis University Bareilly" class="logo logo-invertis">
+    </div>
     <h1>Advanced Digital Marketing Program</h1>
     <p>Shape My Skills × Invertis University</p>
   </header>
