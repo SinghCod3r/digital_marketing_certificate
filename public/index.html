@@ -84,6 +84,13 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
 #dl.busy{pointer-events:none;opacity:.75;animation:none}
 #dl.busy::after{content:"";display:inline-block;width:14px;height:14px;margin-left:10px;vertical-align:-2px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.dl-progress-wrap{margin-top:16px;background:#fdfbf7;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;text-align:left;animation:fadeUp2 .4s ease both}
+.dl-progress-header{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:600;color:var(--navy);margin-bottom:8px}
+.dl-bar-track{height:10px;background:#ece5d6;border-radius:99px;overflow:hidden;position:relative}
+.dl-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold) 0%,#e5b84c 50%,var(--navy) 100%);background-size:200% 100%;border-radius:99px;transition:width .35s ease;animation:shimmer 1.8s linear infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dl-bar-fill.done{background:var(--ok)!important;animation:none}
+.dl-step-desc{font-size:.82rem;color:var(--muted);margin-top:7px}
 .review details{transition:background .2s}
 .review details[open]{background:rgba(184,137,43,.07)}
 .confetti{position:fixed;top:-12px;width:8px;height:12px;border-radius:2px;pointer-events:none;z-index:10;animation:fall linear forwards}
@@ -132,6 +139,16 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
     <div class="score" id="score"></div>
     <p id="msg" style="margin:0 0 6px"></p>
     <button class="primary gold" id="dl">Download Certificate (PDF)</button>
+    <div id="dl-progress-box" class="dl-progress-wrap hidden">
+      <div class="dl-progress-header">
+        <span id="dl-status-text">Preparing certificate...</span>
+        <span id="dl-percent-text">0%</span>
+      </div>
+      <div class="dl-bar-track">
+        <div id="dl-bar-fill" class="dl-bar-fill"></div>
+      </div>
+      <div class="dl-step-desc" id="dl-desc-text">Please wait while your certificate is generated.</div>
+    </div>
     <div class="err" id="e3"></div>
     <p class="note">Your certificate is available whether you pass or not.</p>
     <div class="review" id="review"></div>
@@ -180,6 +197,7 @@ $("start").onclick=()=>{
   $("e1").textContent="";
   student={name,date:$("date").value};
   $("who").textContent=name;
+  preloadTemplate();
   idx=0;ans.fill(null);render();show("s2");
 };
 
@@ -221,6 +239,31 @@ function finish(){
   show("s3");
 }
 
+// ---- Preload certificate template in background ----
+let templateBufferPromise = null;
+function preloadTemplate(){
+  if(!templateBufferPromise){
+    templateBufferPromise = fetch("certificate-template.pdf")
+      .then(r => { if(!r.ok) throw new Error("Template fetch failed"); return r.arrayBuffer(); })
+      .catch(err => { templateBufferPromise = null; });
+  }
+}
+preloadTemplate();
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function setDlProgress(pct, status, desc, isDone = false){
+  $("dl-bar-fill").style.width = pct + "%";
+  $("dl-percent-text").textContent = pct + "%";
+  $("dl-status-text").textContent = status;
+  $("dl-desc-text").textContent = desc;
+  if(isDone){
+    $("dl-bar-fill").classList.add("done");
+  } else {
+    $("dl-bar-fill").classList.remove("done");
+  }
+}
+
 // ---- Certificate generation (positions measured from the A4 template, in PDF points) ----
 function toLatin(s){
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\x20-\x7E]/g,"").trim();
@@ -254,31 +297,58 @@ function confetti(){
 
 $("dl").onclick=async()=>{
   $("e3").textContent="";
-  const btn=$("dl");btn.classList.add("busy");
+  const btn=$("dl");
   const name=toLatin(student.name);
-  if(!name){$("e3").textContent="Name must contain English letters to print on the certificate.";btn.classList.remove("busy");return}
+  if(!name){$("e3").textContent="Name must contain English letters to print on the certificate.";return}
+
+  btn.classList.add("busy");
+  btn.disabled = true;
+  $("dl-progress-box").classList.remove("hidden");
+  setDlProgress(18, "Loading certificate template...", "Preparing official certificate background...");
+  await sleep(250);
+
   try{
+    if(!templateBufferPromise) preloadTemplate();
+    const bytes = await (templateBufferPromise || fetch("certificate-template.pdf").then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}));
+
+    setDlProgress(45, "Filling candidate name & date...", `Printing "${name}" & completion date ${fmt(student.date)}...`);
+    await sleep(350);
+
     const {PDFDocument,StandardFonts,rgb}=PDFLib;
-    const bytes=await fetch("certificate-template.pdf").then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()});
     const pdf=await PDFDocument.load(bytes);
     const page=pdf.getPages()[0];
     const {width}=page.getSize();
     const nameFont=await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
     const dateFont=await pdf.embedFont(StandardFonts.TimesRoman);
     const navy=rgb(0.06,0.14,0.33);
+
     // Name: centred on the long line under "This is to certify that"
     drawFit(page,nameFont,name,width/2,324,500,34,14,navy);
     // Date: centred on the short line after "Date of Completion:"
     drawFit(page,dateFont,fmt(student.date),182,60,70,11,7,navy);
+
+    setDlProgress(80, "Compiling PDF document...", "Embedding vector fonts and formatting output...");
+    await sleep(300);
+
     const out=await pdf.save();
+
+    setDlProgress(100, "Certificate Ready!", "Download starting automatically...", true);
+    await sleep(250);
+
     const url=URL.createObjectURL(new Blob([out],{type:"application/pdf"}));
     const a=document.createElement("a");
     a.href=url;a.download=`Certificate - ${name}.pdf`;
     document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),4000);
+
+    btn.textContent = "Download Again (PDF)";
   }catch(e){
     $("e3").textContent="Could not generate the certificate. Please check your connection and try again.";
-  }finally{btn.classList.remove("busy")}
+    $("dl-progress-box").classList.add("hidden");
+  }finally{
+    btn.classList.remove("busy");
+    btn.disabled = false;
+  }
 };
 </script>
 </body>
