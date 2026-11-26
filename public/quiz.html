@@ -25,11 +25,8 @@ header h1{font-size:clamp(1.4rem,4.5vw,1.95rem);margin:0 0 6px;font-family:Georg
 header p{margin:0;color:var(--ink);opacity:.75;font-size:1rem;font-weight:500}
 .card{background:var(--card);border-radius:16px;padding:clamp(18px,4vw,32px);box-shadow:0 10px 30px rgba(15,36,85,.18);border-top:4px solid var(--gold)}
 label{display:block;font-weight:600;margin:16px 0 6px;font-size:.95rem}
-input[type=text],input[type=date]{width:100%;padding:13px 14px;font-size:1rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input[type=text]{width:100%;padding:13px 14px;font-size:1rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
-input:disabled{background:#f0ece1;color:var(--muted)}
-.chk{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:.9rem;color:var(--muted);font-weight:400}
-.chk input{width:18px;height:18px;accent-color:var(--navy)}
 button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:14px 20px;font-weight:600;font-size:1rem}
 .primary{background:var(--navy);color:#fff;width:100%;margin-top:22px}
 .primary:hover{background:#17337a}.primary:disabled{opacity:.45;cursor:not-allowed}
@@ -68,7 +65,7 @@ header{animation:fadeDown .7s cubic-bezier(.2,.7,.2,1) both}
 .card:hover{box-shadow:0 14px 36px rgba(15,36,85,.24)}
 .q.swap,.opt.swap{animation:slideIn .4s cubic-bezier(.2,.7,.2,1) both}
 @keyframes slideIn{from{opacity:0;transform:translateX(16px)}}
-input[type=text],input[type=date],.opt,button{transition:border-color .2s,background .2s,box-shadow .2s,transform .2s,opacity .2s}
+input[type=text],.opt,button{transition:border-color .2s,background .2s,box-shadow .2s,transform .2s,opacity .2s}
 input:focus{box-shadow:0 0 0 4px rgba(184,137,43,.18)}
 button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,36,85,.18)}
 button:not(:disabled):active{transform:translateY(0) scale(.98)}
@@ -102,7 +99,7 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
 <div class="wrap">
   <header>
     <div class="brand-bar">
-      <img src="shape-my-skills-logo.png" alt="Shape My Skills" class="logo logo-sms">
+      <img src="shape-my-skills-logo.png" alt="Shape My Skills by DUCAT" class="logo logo-sms">
       <span class="brand-divider">×</span>
       <img src="invertis-logo.png" alt="Invertis University Bareilly" class="logo logo-invertis">
     </div>
@@ -114,9 +111,6 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
   <section class="card" id="s1">
     <label for="name" style="margin-top:0">Full name (as it should appear on the certificate)</label>
     <input type="text" id="name" maxlength="45" placeholder="e.g. Rahul Sharma" autocomplete="name">
-    <label for="date">Date of completion</label>
-    <input type="date" id="date" disabled>
-    <label class="chk"><input type="checkbox" id="auto" checked> Use today's date</label>
     <div class="err" id="e1"></div>
     <button class="primary" id="start">Start Quiz</button>
   </section>
@@ -156,6 +150,8 @@ button:not(:disabled):active{transform:translateY(0) scale(.98)}
 </div>
 
 <script>
+const TEMPLATE_URL = "Certificate%20Vintage%20Academic.jpeg.pdf";
+
 const QS=[
 ["What is digital marketing?",["Marketing through newspapers only","Marketing using digital platforms and technologies","Marketing through television only","Traditional door-to-door marketing"],1],
 ["Which of the following is an example of SEO?",["Improving website ranking on Google","Printing brochures","Distributing pamphlets","Organizing offline events"],0],
@@ -170,17 +166,7 @@ const QS=[
 ];
 const $=id=>document.getElementById(id);
 const L="ABCD";
-let lastRendered=-1, idx=0, ans=Array(QS.length).fill(null), student={name:"",date:""};
-
-// today's date in the visitor's local time
-function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function fmt(iso){const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`}
-
-$("date").value=todayISO();
-$("auto").addEventListener("change",e=>{
-  $("date").disabled=e.target.checked;
-  if(e.target.checked)$("date").value=todayISO();
-});
+let lastRendered=-1, idx=0, ans=Array(QS.length).fill(null), student={name:""};
 
 function show(id){
   ["s1","s2","s3"].forEach(s=>{const e=$(s);e.classList.remove("enter");e.classList.toggle("hidden",s!==id)});
@@ -193,9 +179,8 @@ $("s1").classList.add("enter");
 $("start").onclick=()=>{
   const name=$("name").value.trim().replace(/\s+/g," ");
   if(!name){$("e1").textContent="Please enter your name.";return}
-  if(!$("date").value){$("e1").textContent="Please choose a date.";return}
   $("e1").textContent="";
-  student={name,date:$("date").value};
+  student={name};
   $("who").textContent=name;
   preloadTemplate();
   idx=0;ans.fill(null);render();show("s2");
@@ -243,7 +228,7 @@ function finish(){
 let templateBufferPromise = null;
 function preloadTemplate(){
   if(!templateBufferPromise){
-    templateBufferPromise = fetch("certificate-template.pdf")
+    templateBufferPromise = fetch(TEMPLATE_URL)
       .then(r => { if(!r.ok) throw new Error("Template fetch failed"); return r.arrayBuffer(); })
       .catch(err => { templateBufferPromise = null; });
   }
@@ -309,9 +294,9 @@ $("dl").onclick=async()=>{
 
   try{
     if(!templateBufferPromise) preloadTemplate();
-    const bytes = await (templateBufferPromise || fetch("certificate-template.pdf").then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}));
+    const bytes = await (templateBufferPromise || fetch(TEMPLATE_URL).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}));
 
-    setDlProgress(45, "Filling candidate name & date...", `Printing "${name}" & completion date ${fmt(student.date)}...`);
+    setDlProgress(45, "Personalizing certificate...", `Printing "${name}" on official certificate...`);
     await sleep(350);
 
     const {PDFDocument,StandardFonts,rgb}=PDFLib;
@@ -319,13 +304,11 @@ $("dl").onclick=async()=>{
     const page=pdf.getPages()[0];
     const {width}=page.getSize();
     const nameFont=await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
-    const dateFont=await pdf.embedFont(StandardFonts.TimesRoman);
     const navy=rgb(0.06,0.14,0.33);
 
-    // Name: centred on the long line under "This is to certify that"
-    drawFit(page,nameFont,name,width/2,324,500,34,14,navy);
-    // Date: centred on the short line after "Date of Completion:"
-    drawFit(page,dateFont,fmt(student.date),182,60,70,11,7,navy);
+    // Name: Centred on the line under "This certificate is proudly presented to"
+    // width is 842pt, center is 421pt, underline is at y=284.3pt, baseline at 290pt sits right on the line
+    drawFit(page,nameFont,name,width/2,290,460,34,14,navy);
 
     setDlProgress(80, "Compiling PDF document...", "Embedding vector fonts and formatting output...");
     await sleep(300);
